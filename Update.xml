@@ -1,0 +1,150 @@
+<project name="数字图像处理">
+<update date="2014/10/16" eidt="0.2.0.0">
+	<content type="界面与控制">
+		<add>
+			<detail level="important">
+				增加用户改变图像大小的对话框界面。
+			</detail>
+			<detail level="important">
+				将对话框抽象为随用户操作即时改变图像(IJDialogWithImageInstanceChange)和不随用户操作即时改变图像两类(IJDialogWithoutImageInstanceChange)。
+			</detail>
+		</add>
+		<change>
+			<detail level="important">
+				将原有选择灰度值的对话框改为继承IJDialogWithoutImageInstanceChange.
+			</detail>
+		</change>
+	</content>
+</update>
+
+<update date="2014/10/19" edit="0.2.1.0">
+	<content type="数据处理">
+		<add>
+			<detail level="fine">
+				丰富了ImageProcess，加入了ARGB的分解合成静态方法，使其更加好用了。
+			</detail>
+			<detail level="important">
+				为IImageProcess增加了两个新的邻域像素处理函数，分别对应可以改变图像大小，和不可改变图像大小。
+			</detail>
+			<detail level="important">
+				在ImageAdjust中添加了对图像进行邻近插值和双线性插值的方法。
+			</detail>
+			<detail level="important">
+				在ImageData中添加了“撤销”栈和“重做”栈，实现了撤销重做功能及其辅助函数。
+			</detail>
+		</add>
+		<change>
+			<detail level="good">
+				重构了ImageProcess中处理方法，使其不依赖于自定的数据类型ImageData，改用java.awt.Image，增强其通用性。
+			</detail>
+			<detail level="good">
+				重构了ImageAdjust.toBlackWhite方法，使其能够接受一个Image类型，并返回一个Image类型，增强其复用能力。
+			</detail>
+			<detail level="good">
+				对应重构了控制器中的方法，对ImageData中的数据处理前，首先在控制器中获取Image，处理后在控制器中进行设置，避免处理中混有控制。
+			</detail>
+		</change>
+	</content>
+	<content type="界面与控制">
+		<add>
+			<detail level="fine">
+				在“图像“菜单添加”图像大小”选项。
+			</detail>
+			<detail level="fine">
+				在MenuProcessImage中添加resizeImage函数，并完成与“图像大小”的绑定。
+			</detail>
+			<detail level="fine">
+				增加了编辑菜单，和两个菜单项“撤销”、“重做”
+			</detail>
+		</add>
+		<change>
+			<detail level = "good">
+				将改变图像大小的模式、单位等常量移入MenuProcessImage中，避免界面中包含数据。
+			</detail>
+			<detail level="fine"
+				>对重设图片大小的窗口的按键行为进行了调整，只对数字键发生反应。
+			</detail>
+		</change>
+	</content>
+	<content type="其他">
+		<add>
+			<detail level="fine">
+				添加了png图片的读取与保存。
+			</detail>
+			<detail level="fine">
+				将保存时默认路径设置为打开文件的路径。
+			</detail>
+		</add>
+	</content>
+</update>
+
+<update date="2014/10/21" edit="0.2.1.1">
+	<content type="界面控制">
+		<add>
+			<datail>
+				添加了“图像叠加”的选择窗口。
+			</datail>
+		</add>
+		<change>
+			<detail level="important">
+				将图片随对话框即时变化和图片不随对话框即时变化两种对话框类，
+				再进一步抽象了IJMyDialog类，将其公共方法放入其中。
+			</detail>
+			<detail level="important">
+				去掉DGrayLevel和DImageSize的静态方法，
+				采用new之后调用showDialog来获取用户输入。
+			</detail>
+		</change>
+	</content>
+	<content type="其他">
+		<add>
+			<detail level="fine">
+				添加了gif图片的读取与保存。
+			</detail>
+		</add>
+	</content>
+</update>
+
+<update date="2014/10/22" edit="0.3.0.0">
+	<content type="架构">
+		<change>
+			<detail level="very important">
+				将MVC框架调整为了M、VM、V、C框架。
+				M-数据模型、底层对数据进行处理的函数。
+				VM-视图模型，包含视图的数据，为视图事件添加处理器，控制视图变化。
+				V-视图。
+				C-处理用户的操作，调用M中功能对数据进行改变。
+			</detail>
+			<detail level="very important">
+				将原有MenuProcess类改为了XXXController类。
+				将原有ImageProcess类改为Process类。
+				将原有IProcessAPixel、IPorcessNeighborhood更改接口为IProcessAPixelIntCoordinate，
+				和IProcessAPixelFloatCoordinate.
+			</detail>
+			<detail level="good">
+				将通用类放入了holy.util中。
+			</detail>
+		</change>
+	</content>
+	<content type="数据处理">
+		<add>
+			<detail level="important">
+				添加了滤镜处理类ProcessFilter，并实现了第一个方法：图片叠加。
+			</detail>
+		</add>
+		<change>
+			<detail level="important">
+				将处理单个像素的函数，以1,500,000像素作区分，每1.5M，增加一条线程处理。
+			</detail>
+		</change>
+	</content>
+	<content type="界面控制">
+		<add>
+			<detail level="fine">
+				添加了图像叠加菜单项，并作出了控制函数实现。
+			</detail>
+		</add>
+	</content>
+</update>
+
+</project>
