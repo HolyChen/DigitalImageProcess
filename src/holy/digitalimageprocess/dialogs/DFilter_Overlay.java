@@ -45,7 +45,10 @@ public class DFilter_Overlay extends IJDialogWithImageInstanceChange {
 	private JLabel lblTips;
 
 	/**
-	 * Launch the application.
+	 * 测试对话框
+	 * 
+	 * @param args
+	 *            无用
 	 */
 	public static void main(String[] args) {
 		try {
@@ -71,7 +74,10 @@ public class DFilter_Overlay extends IJDialogWithImageInstanceChange {
 	}
 
 	/**
-	 * Create the dialog.
+	 * 使用打开对话框的帧初始化“滤镜-图像叠加”对话框。
+	 * 
+	 * @param owner
+	 *            打开这个对话框的帧
 	 */
 	public DFilter_Overlay(Frame owner) {
 		super(owner);

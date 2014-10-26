@@ -26,7 +26,7 @@ public class ImageData {
 	// 图像数据，并不直接用于显示
 	private Image image;
 	// 显示的图像数据，由图像放缩或其他结果得到
-	private Image dispalyImage;	
+	private Image dispalyImage;
 	// 标志图像是否发生改变
 	private boolean imageChanged;
 	// 进行撤销操作的栈
@@ -74,26 +74,30 @@ public class ImageData {
 	public Image getImage() {
 		return image;
 	}
-	
+
 	/**
 	 * 返回用于显示的图像。
+	 * 
 	 * @return 用于显示的图像，这个图像可能是由原图像叠加得到。
 	 */
 	public Image getDisplayImage() {
 		return dispalyImage;
 	}
-	
+
 	/**
-	 * 设置新的显示图像，设置显示图像并不影响撤销重做栈。<br>
+	 * 设置新的显示图像，这个图像不会覆盖图像本身的数据。<br>
+	 * 设置显示图像并不影响撤销重做栈。<br>
 	 * 显示图像改变后，对界面进行更新。
+	 * 
 	 * @param displayImage
+	 *            要显示的图像。
 	 */
 	public void setDisplayImage(Image displayImage) {
 		this.dispalyImage = displayImage;
 		// 调用图片事件更新处理器
 		fireUpdateEvent("display");
 	}
-	
+
 	/**
 	 * 从文件中读取图像数据。
 	 * 
@@ -113,7 +117,7 @@ public class ImageData {
 			image = rgbImage;
 			// 设置显示图像
 			setDisplayImage(image);
-			
+
 			initialize();
 			return SUCCESS;
 		} catch (IllegalArgumentException e) {
@@ -138,10 +142,12 @@ public class ImageData {
 		this.image = bfImage;
 		setDisplayImage(image);
 	}
-	
+
 	/**
 	 * 更新图片，但是不改变redo和undo栈。
-	 * @param bfImage 要更新的图片
+	 * 
+	 * @param bfImage
+	 *            要更新的图片
 	 */
 	public void setImageWithoutStack(Image bfImage) {
 		setImageChanged(true);

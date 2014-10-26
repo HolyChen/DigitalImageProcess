@@ -67,6 +67,7 @@ public abstract class IOKorCancelDialog extends JDialog {
 	
 	/**
 	 * 用户是否点击了确定
+	 * @return 如果用户点击了确定则返回true，反之false
 	 */
 	public boolean isEntered() {
 		return status == STATUS_ENTERED;
@@ -81,6 +82,7 @@ public abstract class IOKorCancelDialog extends JDialog {
 
 	/**
 	 * 用户是否点击了取消
+	 * @return 用户如果点击了取消，则返回true，反之false
 	 */
 	public boolean isCanceled() {
 		return status == STATUS_CANCELED;

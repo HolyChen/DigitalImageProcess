@@ -42,8 +42,8 @@ public class DImage_Adjust_GrayLevel extends IJDialogWithoutImageInstanceChange 
 		try {
 			UIManager
 					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			System.out.println(Arrays.toString(new DImage_Adjust_GrayLevel(null)
-					.showDialog()));
+			System.out.println(Arrays
+					.toString(new DImage_Adjust_GrayLevel(null).showDialog()));
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -53,8 +53,6 @@ public class DImage_Adjust_GrayLevel extends IJDialogWithoutImageInstanceChange 
 	 * 打开灰度结束选择对话框，并且要求用户在2、4、8、16、32、64、128、256阶数
 	 * 之中选择一个合适的值。如果选择中发生错误或用户取消选择，将返回0，此时 代表没有选择一个灰度阶数。
 	 * 
-	 * @param owner
-	 *            打开这个对话框的窗口
 	 * @return 返回用户是否进行了选择、和用户选择的灰度阶数(2、4、8、16、32、64、128、256)。 顺序如下：<br>
 	 *         0-(int)用户的操作状态，对应于IJMyDialog中STATUS_常量;<br>
 	 *         ，<br>
@@ -73,7 +71,10 @@ public class DImage_Adjust_GrayLevel extends IJDialogWithoutImageInstanceChange 
 	}
 
 	/**
-	 * 创建一个选择灰度的对话框，并将父界面做为所有者
+	 * 创建一个选择灰度的对话框，并将父界面做为所有者。
+	 * 
+	 * @param owner
+	 *            打开这个对话框的父界面。
 	 */
 	public DImage_Adjust_GrayLevel(Frame owner) {
 		super(owner);

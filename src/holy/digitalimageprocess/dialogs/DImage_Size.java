@@ -57,7 +57,10 @@ public class DImage_Size extends IJDialogWithoutImageInstanceChange {
 	private JCheckBox chkbIsHoldRatio;
 
 	/**
-	 * Launch the application.
+	 * 打开图像大小对话框进行测试。
+	 * 
+	 * @param args
+	 *            无用
 	 */
 	public static void main(String[] args) {
 		try {
@@ -73,17 +76,9 @@ public class DImage_Size extends IJDialogWithoutImageInstanceChange {
 	 * 创建一个对话框，让用户输入图片新的高度、宽度、放缩模式、所用单位。<br>
 	 * 并将用户输入数据作为一个Object数组进行返回，返回值顺序见return。
 	 * 
-	 * @param owner
-	 *            打开这个对话框的帧
-	 * @param srcWidth
-	 *            原图像宽度
-	 * @param srcHeight
-	 *            原图像高度
-	 * @param unit
-	 *            原图像所用单位，请暂时使用DImageSize中以UNIT_开头常量。
-	 * @return 返回值顺序如下：<br> 
-	 * 	 	   0-(int)用户的操作状态，对应于IJMyDialog中STATUS_常量;<br>
-	 * 		   1-新图像宽度; <br>
+	 * @return 返回值顺序如下：<br>
+	 *         0-(int)用户的操作状态，对应于IJMyDialog中STATUS_常量;<br>
+	 *         1-新图像宽度; <br>
 	 *         2-新图像高度; 3-新图像所用放缩模式; 4-新图像的单位。
 	 * 
 	 */

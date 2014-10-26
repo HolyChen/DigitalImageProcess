@@ -25,9 +25,8 @@ public abstract class IJDialogWithoutImageInstanceChange extends IOKorCancelDial
 	 * 显示对话框，并返回结果。这里集成了基本的操作，必须重载这个函数。
 	 * 
 	 * @return 第0个值必须为用户是否进行了选择。
-	 * @throws 当发生错误时将其抛出 
 	 */
-	public Object[] showDialog() throws Exception {
+	public Object[] showDialog() {
 		initialize();
 		waitForUserAct();
 		clear();

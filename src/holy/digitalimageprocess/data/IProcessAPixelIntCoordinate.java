@@ -7,7 +7,7 @@ package holy.digitalimageprocess.data;
 public interface IProcessAPixelIntCoordinate {
 	/**
 	 * 对一个像素位置的进行邻域处理操作。
-	 * @param rgbs 包含该像素的ARGB数组
+	 * @param argbs 包含该像素的ARGB数组
 	 * @param index 这个像素在argbs中的位置
 	 * @return 返回新产生的像素
 	 */

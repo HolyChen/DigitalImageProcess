@@ -11,7 +11,8 @@ public class ProcessFilter extends IImageProcess {
 	/**
 	 * 将图像A、和图像B按照radio的透明比例进行叠加。<br>
 	 * 当radio是0时，返回的图片与A一致，当radio是1时，与B一致。<br>
-	 * A、B两张图片大小必须完全一致。
+	 * A、B两张图片大小必须完全一致。当两张图片大小不一致或者radio不在
+	 * [0, 1]时, 抛出IllegalArgumentException.
 	 * 
 	 * @param imageA
 	 *            要进行叠加的图片A。
@@ -20,8 +21,6 @@ public class ProcessFilter extends IImageProcess {
 	 * @param radio
 	 *            两张图片的叠加比例。
 	 * @return 叠加后的图片。
-	 * @throws 当两张图片大小不一致或者radio不在
-	 *             [0, 1]时, 抛出IllegalArgumentException.
 	 */
 	public Image imageOverlay(Image imageA, Image imageB, double radio)
 			throws IllegalArgumentException {

@@ -39,7 +39,7 @@ public abstract class IJDialogWithImageInstanceChange extends IOKorCancelDialog 
 	/**
 	 * 获取对话框用户的输入结果。
 	 * 
-	 * @retrn 返回值的第0个总是用户的行为状态。UNDECIDE为用户未确定也未取消，
+	 * @return 返回值的第0个总是用户的行为状态。UNDECIDE为用户未确定也未取消，
 	 *         ENTERED为用户已经确定，CANCELED为用户已经取消。后续变量参见具体定义。
 	 */
 	public abstract Object[] getResult();
