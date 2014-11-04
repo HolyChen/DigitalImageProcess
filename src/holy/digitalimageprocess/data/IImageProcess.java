@@ -54,7 +54,7 @@ public abstract class IImageProcess {
 			// 储存RGB颜色矩阵rgbs到图像中，提前设置到rgbs的大小
 			// 新建一个图片代替的旧的图片
 			BufferedImage newBfImage = new BufferedImage(width, height,
-					BufferedImage.TYPE_INT_RGB);
+					BufferedImage.TYPE_INT_ARGB);
 			newBfImage.setRGB(0, 0, width, height, rgbs, 0, width);
 			return newBfImage;
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public abstract class IImageProcess {
 	 * 
 	 * @return 处理后的图像
 	 */
-	protected Image process(Image image, IProcessAPixelIntCoordinate method) {
+	protected Image process(Image image, IProcessAPixelIndex method) {
 		try {
 			int[] rgbs = getPixelMatrix(image);
 			int[] newRgbs = new int[rgbs.length];
@@ -256,10 +256,97 @@ public abstract class IImageProcess {
 	 *            处理方法
 	 */
 	private void pieceProcess(int[] rgbs, int[] newRgbs, int start, int end,
-			IProcessAPixelIntCoordinate method) {
+			IProcessAPixelIndex method) {
 		for (int i = start; i < end; i++) {
 			newRgbs[i] = method.process(rgbs, i);
 		}
+	}
+
+	/**
+	 * 对图像进行卷积操作。<br>
+	 * 这个操作会对RGB三个通道同时进行。<br>
+	 * 卷积操作在边界采用复制扩展的方式。<br>
+	 * 
+	 * @param image
+	 *            要进行卷积操作的图像。
+	 * @param filterMatrix
+	 *            进行卷积操作的过滤矩阵。
+	 * @return 进行卷积操作后的图像
+	 */
+	public Image convolution(Image image, FilterMatrix filterMatrix) {
+		BufferedImage bfImage = (BufferedImage) image;
+
+		int width = bfImage.getWidth();
+		int height = bfImage.getHeight();
+		int row = filterMatrix.getRow();
+		int column = filterMatrix.getColumn();
+
+		// 处理后新生成的图像
+		BufferedImage newImage = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_ARGB);
+
+		// 过滤矩阵在横向计算时的负偏移量
+		int negBiasX = -column / 2;
+		// 过滤矩阵在纵向计算时的负偏移量
+		int negBiasY = -row / 2;
+		// 过滤矩阵在横向计算时的正偏移量
+		int posBiasX = column + negBiasX;
+		// 过滤矩阵在纵向计算时的正偏移量
+		int posBiasY = row + negBiasY;
+
+		// 在接下来计算时，取图像中点的行坐标
+		int imageRow;
+		// 在接下来计算时，取图像中点的列坐标
+		int imageColumn;
+		// 在接下来计算时，图像中点argb值
+		int argb;
+		// 在接下来计算时，图像中点argb解析成的ARGB向量
+		int[] argbArray;
+		// 在接下来计算时，每一次计算结果生成的ARGB值向量
+		int[] resultArgbArray;
+		
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				// 初始化结果为0，不透明度为255
+				resultArgbArray = new int[] { 255, 0, 0, 0 };
+				for (int y = negBiasY; y < posBiasY; y++) {
+					for (int x = negBiasX; x < posBiasX; x++) {
+						imageRow = i + y;
+						imageColumn = j + x;
+						// 对越界进行检测
+						if (imageRow < 0 || imageRow >= height
+								|| imageColumn < 0 || imageColumn >= width) {
+							// 在边缘采用重复补齐的方式
+							argb = bfImage.getRGB(j, i);
+						} else {
+							argb = bfImage.getRGB(imageColumn, imageRow);
+						}
+						argbArray = decARGB(argb);
+						for (int n = 1; n < 4; n++) {
+							// 将偏移量转为原坐标
+							resultArgbArray[n] += argbArray[n]
+									* filterMatrix.getEntity(y - negBiasY, x
+											- negBiasX);
+						}
+					}
+				}
+				// 对计算结果整体进行截断和放缩
+				for (int n = 1; n < 4; n++) {
+					// 全部取绝对值
+					resultArgbArray[n] = Math.abs(resultArgbArray[n]);
+					resultArgbArray[n] = (int) Math.round(resultArgbArray[n]
+							* filterMatrix.getScaling());
+					// 不超过255
+					resultArgbArray[n] = Math.min(resultArgbArray[n], 255);
+				}
+				newImage.setRGB(
+						j,
+						i,
+						comARGB(resultArgbArray[0], resultArgbArray[1],
+								resultArgbArray[2], resultArgbArray[3]));
+			}
+		}
+		return newImage;
 	}
 
 	/**

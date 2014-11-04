@@ -3,6 +3,7 @@ package holy.digitalimageprocess.controller;
 import holy.digitalimageprocess.data.ImageData;
 import holy.digitalimageprocess.data.ProcessAdjust;
 import holy.digitalimageprocess.data.ProcessFilter;
+import holy.digitalimageprocess.dialogs.DFilter_Blur;
 import holy.digitalimageprocess.dialogs.DFilter_Overlay;
 import holy.util.IController;
 import holy.util.IOKorCancelDialog;
@@ -57,7 +58,7 @@ public class MenuFilterController extends IController {
 				// 获取的图像要被更改到与imageData相同大小，这里将其缓存
 				// 以减少运算需求。
 				Image resizedImage = null;
-				Image overlayImage = srcImage; 
+				Image overlayImage = srcImage;
 
 				while (true) {
 					results = dialog.getResult();
@@ -82,8 +83,9 @@ public class MenuFilterController extends IController {
 								} else {
 									// 仅比例改变，重新生成叠加后图像
 									lastRadio = radio;
-									overlayImage = ProcessFilter.getInstance().imageOverlay(
-											srcImage, resizedImage, radio);
+									overlayImage = ProcessFilter.getInstance()
+											.imageOverlay(srcImage,
+													resizedImage, radio);
 								}
 							} else {
 								// 重新设置比例
@@ -103,8 +105,9 @@ public class MenuFilterController extends IController {
 													srcImage.getWidth(null),
 													srcImage.getHeight(null));
 								}
-								overlayImage = ProcessFilter.getInstance().imageOverlay(
-										srcImage, resizedImage, radio);
+								overlayImage = ProcessFilter.getInstance()
+										.imageOverlay(srcImage, resizedImage,
+												radio);
 							}
 							imageData.setDisplayImage(overlayImage);
 						} else {
@@ -112,6 +115,78 @@ public class MenuFilterController extends IController {
 						}
 					}
 				}
+			}
+		}).start();
+	}
+
+	/**
+	 * 对图像进行模糊操作
+	 * 
+	 * @param imageData
+	 *            要进行模糊的图像
+	 */
+	public void blur(ImageData imageData) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Object[] results = new DFilter_Blur(context).showDialog();
+				if ((boolean) results[0]) {
+					int intensity = (int) results[1];
+					imageData.setImage(ProcessFilter.getInstance().blur(
+							imageData.getImage(), intensity));
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * 对图像进行锐化操作
+	 * 
+	 * @param imageData
+	 *            要进行锐化的图像
+	 */
+	public void sharpen(ImageData imageData) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				imageData.setImage(ProcessFilter.getInstance().sharpen(
+						imageData.getImage()));
+			}
+		}).start();
+	}
+
+	/**
+	 * 对图像进行Sobel横向滤波操作
+	 * 
+	 * @param imageData
+	 *            要进行锐化的图像
+	 */
+	public void sobelHorizontal(ImageData imageData) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				imageData.setImage(ProcessFilter.getInstance().sobelHorizontal(
+						imageData.getImage()));
+			}
+		}).start();
+	}
+	
+	/**
+	 * 对图像进行Sobel纵向滤波操作
+	 * 
+	 * @param imageData
+	 *            要进行锐化的图像
+	 */
+	public void sobelVertical(ImageData imageData) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				imageData.setImage(ProcessFilter.getInstance().sobelVertical(
+						imageData.getImage()));
 			}
 		}).start();
 	}

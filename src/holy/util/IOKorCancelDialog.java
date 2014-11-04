@@ -6,7 +6,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
 
 /**
- * 显示对话框并要求用户“确定”或“取消”的抽象类。
+ * 显示对话框并要求用户“确定”或“取消”的抽象类。<br>
+ * 使用时请复写ok和cancel类。
  */
 public abstract class IOKorCancelDialog extends JDialog {
 	private static final long serialVersionUID = -7477365516594545561L;

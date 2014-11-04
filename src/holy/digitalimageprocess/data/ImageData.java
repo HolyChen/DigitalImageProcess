@@ -109,12 +109,12 @@ public class ImageData {
 	public int setImage(File file) {
 		try {
 			image = ImageIO.read(file);
-			// 全部转化为rgb图
-			BufferedImage rgbImage = new BufferedImage(image.getWidth(null),
-					image.getHeight(null), BufferedImage.TYPE_INT_RGB);
-			rgbImage.getGraphics().drawImage(image, 0, 0, image.getWidth(null),
+			// 全部转化为ARGB图
+			BufferedImage argbImage = new BufferedImage(image.getWidth(null),
+					image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			argbImage.getGraphics().drawImage(image, 0, 0, image.getWidth(null),
 					image.getHeight(null), null);
-			image = rgbImage;
+			image = argbImage;
 			// 设置显示图像
 			setDisplayImage(image);
 
@@ -173,7 +173,8 @@ public class ImageData {
 	 * @param file
 	 *            储存图片的文件
 	 * @param formatName
-	 *            储存图片类型的格式名，如“jpg”， 与ImageIO.write所需要的formatName一致
+	 *            储存图片类型的格式名，如“jpg”， 与ImageIO.write所需要的formatName一致。<br>
+	 *            具体支持的格式请查看ImageIO.getWriterFormat();
 	 */
 	public void saveImage(File file, String formatName) {
 		try {
@@ -181,7 +182,22 @@ public class ImageData {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			ImageIO.write(((BufferedImage) image), "jpg", file);
+			Image toWrite = null;
+			// 根据格式的不同对Image色彩模式进行转换。
+			if (formatName.equalsIgnoreCase("jpg") || formatName.equalsIgnoreCase("bmp")) {
+				// JPG 或 BMP转化为RGB
+				toWrite = new BufferedImage(image.getWidth(null),
+						image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+				toWrite.getGraphics().drawImage(image, 0, 0, image.getWidth(null),
+						image.getHeight(null), null); 
+			} else if (formatName.equalsIgnoreCase("png") || formatName.equalsIgnoreCase("gif")) {
+				// png 或 gif 转化为ARGB
+				toWrite = new BufferedImage(image.getWidth(null),
+						image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+				toWrite.getGraphics().drawImage(image, 0, 0, image.getWidth(null),
+						image.getHeight(null), null); 
+			}
+			ImageIO.write(((BufferedImage) toWrite), formatName, file);
 			// 调用图片事件更新处理器
 			fireUpdateEvent(file.getName());
 			setImageChanged(false);

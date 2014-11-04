@@ -34,21 +34,98 @@ public class ProcessFilter extends IImageProcess {
 
 		int[] argbB = getPixelMatrix(imageB);
 
-		IProcessAPixelIntCoordinate method = new IProcessAPixelIntCoordinate() {
+		IProcessAPixelIndex method = new IProcessAPixelIndex() {
 
 			@Override
 			public int process(int[] argbs, int index) {
+				// 将一个argb整数解析成A、R、G、B数组
 				int[] argbArrayA = decARGB(argbs[index]);
 				int[] argbArrayB = decARGB(argbB[index]);
 				int[] result = new int[4];
 				for (int i = 0; i < 4; i++) {
+					// 四舍五入保证正确性
 					result[i] = (int) Math.round(argbArrayA[i] * (1 - radio)
 							+ argbArrayB[i] * radio);
 				}
+				// 重新压缩为一个argb整数
 				return comARGB(result[0], result[1], result[2], result[3]);
 			}
 		};
 		return process(imageA, method);
+	}
+	
+	/**
+	 * 对图像进行模糊操作。
+	 * @param image 要进性模糊的图像
+	 * @param size 模糊选取大小
+	 * @return 模糊后的图像
+	 */
+	public Image blur(Image image, int size) {
+		// 先构造滤镜算子矩阵
+		int row = size;
+		int column = size;
+		double scaling = 1.0 / (row * column);
+		int[] entity = new int[row * column];
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < column; j++) {
+				entity[i * column + j] = 1;
+			}
+		}
+		return convolution(image, new FilterMatrix(row, column, scaling, entity));
+	}
+	
+	/**
+	 * 对图像进行锐化操作。
+	 * @param image 要进行锐化的图像
+	 * @return 锐化后的图像
+	 */
+	public Image sharpen(Image image) {
+		// 先构造滤镜算子矩阵，这是一个2阶拉普拉斯算子
+		int row = 3;
+		int column = 3;
+		double scaling = 1.0;
+		int[] entity = new int[] {
+				1,  1, 1,
+				1, -7, 1,
+				1,  1, 1
+		};
+		return convolution(image, new FilterMatrix(row, column, scaling, entity));
+	}
+	
+	/**
+	 * 对图像Sobel横向滤波
+	 * @param image 要进行锐化的图像
+	 * @return 锐化后的图像
+	 */
+	public Image sobelHorizontal(Image image) {
+		// 先构造滤镜算子矩阵，这是一个Soble横向算子
+		int row = 3;
+		int column = 3;
+		double scaling = 1.0;
+		int[] entity = new int[] {
+				-1,  0, 1,
+				-2,  0, 2,
+				-1,  0, 1
+		};
+		return convolution(image, new FilterMatrix(row, column, scaling, entity));
+	}
+	
+	/**
+	 * 对图像Sobel纵向滤波
+	 * @param image 要进行锐化的图像
+	 * @return 锐化后的图像
+	 */
+	public Image sobelVertical(Image image) {
+		// 先构造滤镜算子矩阵，这是一个Soble横向算子
+		int row = 3;
+		int column = 3;
+		double scaling = 1.0;
+		int[] entity = new int[] {
+				-1,  -2, -1,
+				 0,   0,  0,
+				 1,   2,  1
+		};
+		return convolution(image, new FilterMatrix(row, column, scaling, entity));
 	}
 
 	private static ProcessFilter instance = null;

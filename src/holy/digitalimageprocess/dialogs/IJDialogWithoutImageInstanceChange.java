@@ -6,6 +6,7 @@ import java.awt.Frame;
 
 /**
  * 当对话框中的信息（用户输入）改变时，图像并不随之改变。
+ * 使用时请复写showDialog方法以呈现对话框并返回值。
  */
 public abstract class IJDialogWithoutImageInstanceChange extends IOKorCancelDialog {
 

@@ -62,6 +62,13 @@ public class MainWindow {
 	JMenu mnFilter;
 	// Í¼Ïñµþ¼Ó
 	JMenuItem mntmOverlay;
+	JMenuItem mntmHistogram;
+	JMenuItem mntmPatch;
+	JMenuItem mntmBlur;
+	JMenuItem mntmLaplaceSharpen;
+	JMenu mnShapen;
+	JMenuItem mntmSobelHorizontal;
+	JMenuItem mntmSobelVertical;
 
 	/**
 	 * Æô¶¯Ó¦ÓÃ
@@ -197,13 +204,19 @@ public class MainWindow {
 				mnImage.add(mnAdjust);
 				{
 					// ¡°ºÚ°×Í¼Ïñ¡±
-					mntmBlackWhite = new JMenuItem(" \u9ED1\u767D\u56FE\u50CF");
+					mntmBlackWhite = new JMenuItem("\u9ED1\u767D\u56FE\u50CF");
 					mnAdjust.add(mntmBlackWhite);
 				}
+
+				mntmHistogram = new JMenuItem("\u76F4\u65B9\u56FE");
+				mnAdjust.add(mntmHistogram);
 			}
 
 			mntmSize = new JMenuItem("\u56FE\u50CF\u5927\u5C0F");
 			mnImage.add(mntmSize);
+
+			mntmPatch = new JMenuItem("\u88C1\u526A");
+			mnImage.add(mntmPatch);
 		}
 
 		mnFilter = new JMenu("\u6EE4\u955C(T)");
@@ -212,6 +225,21 @@ public class MainWindow {
 
 		mntmOverlay = new JMenuItem("\u56FE\u50CF\u53E0\u52A0");
 		mnFilter.add(mntmOverlay);
+
+		mntmBlur = new JMenuItem("\u6A21\u7CCA");
+		mnFilter.add(mntmBlur);
+
+		mnShapen = new JMenu("\u9510\u5316");
+		mnFilter.add(mnShapen);
+
+		mntmLaplaceSharpen = new JMenuItem("\u4E8C\u9636\u9510\u5316");
+		mnShapen.add(mntmLaplaceSharpen);
+
+		mntmSobelHorizontal = new JMenuItem("Sobel\u6A2A\u5411\u6EE4\u6CE2");
+		mnShapen.add(mntmSobelHorizontal);
+
+		mntmSobelVertical = new JMenuItem("Sobel\u7EB5\u5411\u6EE4\u6CE2");
+		mnShapen.add(mntmSobelVertical);
 		frame.getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
 
 		spImage = new JScrollPane();

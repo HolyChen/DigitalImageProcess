@@ -11,7 +11,7 @@
 		</add>
 		<change>
 			<detail level="important">
-				将原有选择灰度值的对话框改为继承IJDialogWithoutImageInstanceChange.
+				将原有选择灰度值的对话框改为继承IJDialogWithoutImageInstanceChange
 			</detail>
 		</change>
 	</content>
@@ -142,6 +142,51 @@
 		<add>
 			<detail level="fine">
 				添加了图像叠加菜单项，并作出了控制函数实现。
+			</detail>
+		</add>
+	</content>
+</update>
+
+<update date="2014/11/03" edit="0.3.1.0">
+	<content type="数据处理">
+		<change>
+			<detail level="important">
+				所有的图像设置为ARGB格式。
+			</detail>
+			<detail level="fine">
+				修复了储存图像总是为jpg的bug。
+			</detail>
+			<detail level="fine">
+				修复了储存图像中色彩模式混乱的BUG。在储存时针对格式对色彩模式进行了转换。
+			</detail>
+		</change>
+	</content>
+</update>
+
+<update date="2014/11/04" edit="0.4.0.0">
+	<content type="数据处理">
+		<add>
+			<datail	level="important">
+				在IImageProcess类中加入了矩阵的卷积函数。PS：这是一个低效率的卷积函数，需要修改。
+			</datail>
+			<detail level="important">
+				在ProcessAdjust类中加入了计算直方图和直方图均衡的函数。PS：需要分离直方图映射函数，以复用。
+			</detail>
+			<detail level="important">
+				在ProcessAdjust类中加入了裁剪图像的函数patch.
+			</detail>
+			<detail level="fine">
+				在ProcessFilter中加入了一些模糊、锐化函数。
+			</detail>
+		</add>
+	</content>
+	<content type="界面控制">
+		<add>
+			<detail level="fine">
+				加入了直方图、模糊、裁剪等弹出对话框。
+			</detail>
+			<detail level="fine">
+				主界面中加入了对应于模糊、锐化、直方图、裁剪等菜单选项。
 			</detail>
 		</add>
 	</content>

@@ -169,6 +169,14 @@ public class MainWindowViewModel {
 						mncImage.adjust_ToBlackWhite(imageData);
 					}
 				});
+				// 直方图
+				view.mntmHistogram.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						mncImage.histogram(imageData);
+					}
+				});
 			}
 
 			// 图像大小
@@ -177,6 +185,14 @@ public class MainWindowViewModel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					mncImage.resizeImage(imageData);
+				}
+			});
+			// 裁剪
+			view.mntmPatch.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mncImage.patch(imageData);
 				}
 			});
 		}
@@ -191,6 +207,41 @@ public class MainWindowViewModel {
 					mncFilter.imageOverlay(imageData);
 				}
 			});
+			// 模糊
+			view.mntmBlur.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mncFilter.blur(imageData);
+				}
+			});
+			// 锐化
+			{
+				// 拉普拉斯二阶锐化
+				view.mntmLaplaceSharpen.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						mncFilter.sharpen(imageData);
+					}
+				});
+				// Sobel横向滤波
+				view.mntmSobelHorizontal.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						mncFilter.sobelHorizontal(imageData);
+					}
+				});
+				// Sobel纵向滤波
+				view.mntmSobelVertical.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						mncFilter.sobelVertical(imageData);
+					}
+				});
+			}			
 		}
 	}
 	
