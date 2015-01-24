@@ -41,7 +41,7 @@ public class DFilter_Blur extends IJDialogWithoutImageInstanceChange {
 
 	/**
 	 * 创建对话框。
-	 * 创建对对话框的父窗口。
+	 * @param owner 创建对对话框的父窗口。
 	 */
 	public DFilter_Blur(Frame owner) {
 		super(owner);
